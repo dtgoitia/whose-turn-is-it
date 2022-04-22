@@ -9,14 +9,16 @@ import {
   getMemberWhoWasLessChosen,
 } from "./domain";
 import storage from "./localStorage";
+import styled from "@emotion/styled";
+import { Button } from "@mui/material";
 import { useState } from "react";
-import styled from "styled-components";
 
 const Page = styled.div`
   display: flex;
   flex-flow: column nowrap;
   justify-content: flex-start;
   align-items: center;
+  height: 100vh;
 `;
 
 const ShowHistory = styled.p`
@@ -55,12 +57,12 @@ function App() {
 
       <h3>The chosen one</h3>
       <TheChosenOne person={chosen} />
-      <button
+      <Button
         onSubmit={handleAssignRandomMember}
         onClick={handleAssignRandomMember}
       >
         Tell me the chosen one...
-      </button>
+      </Button>
 
       <ShowHistory onClick={handleShowHideHistory}>
         (click to {showHistory ? "hide" : "show"} history)

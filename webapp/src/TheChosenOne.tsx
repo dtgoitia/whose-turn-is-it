@@ -1,5 +1,5 @@
 import { Person } from "./domain";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 const Name = styled.div`
   font-size: 200px;

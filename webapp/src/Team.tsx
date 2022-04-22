@@ -1,6 +1,7 @@
-import AddTeamMember from "./AddMember";
 import { Person } from "./domain";
-import styled from "styled-components";
+import styled from "@emotion/styled";
+import { Box, TextField } from "@mui/material";
+import { useState } from "react";
 
 const Count = styled.div`
   font-size: 0.8rem;
@@ -19,12 +20,28 @@ export default function Team({ team, add }: Props) {
   const count = [...team].length;
   const names = [...team].sort().join(", ");
 
+  const [name, setName] = useState<string>("");
+  function handleNameChange(event: any) {
+    setName(event.target.value);
+  }
+  function handleSubmit(event: any) {
+    event.preventDefault(); // Do not refresh page
+    add(name);
+  }
+
   return (
-    <div>
+    <Box component="form" noValidate onSubmit={handleSubmit}>
       <h2>Team</h2>
       <Count>({count}) members</Count>
       <Names>{names}</Names>
-      <AddTeamMember add={add} />
-    </div>
+      <div>
+        <TextField
+          label="Add a new member"
+          value={name ? name : undefined}
+          placeholder="name"
+          onChange={handleNameChange}
+        />
+      </div>
+    </Box>
   );
 }
