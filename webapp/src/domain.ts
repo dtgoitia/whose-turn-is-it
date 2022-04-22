@@ -59,14 +59,9 @@ export function getMemberWhoWasLessChosen(
   team: Set<Person>,
   history: Person[]
 ): Person {
-  const historyIsEmpty = !history || history.length === 0;
-  if (historyIsEmpty) return getRandomMember(team);
-
   const countPerPerson: { [p: Person]: number } = {};
-  history.forEach((person) => {
-    if (!countPerPerson[person]) countPerPerson[person] = 0;
-    countPerPerson[person]++;
-  });
+  team.forEach((person) => (countPerPerson[person] = 0));
+  history.forEach((person) => countPerPerson[person]++);
 
   const personPerCount: { [n: number]: Set<Person> } = {};
   for (const person of team) {
