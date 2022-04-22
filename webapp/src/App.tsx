@@ -19,11 +19,18 @@ const Page = styled.div`
   justify-content: flex-start;
   align-items: center;
   height: 100vh;
+
+  margin: 0 auto;
+  padding: 0 2rem;
+  max-width: 800px;
 `;
 
-const ShowHistory = styled.p`
+const ShowChosenOne = styled(Button)`
+  margin: 2rem 0;
+`;
+const ShowHistory = styled(Button)`
   font-size: 0.8rem;
-  opacity: 0.5;
+  margin: 2rem 0;
 `;
 
 function App() {
@@ -57,14 +64,15 @@ function App() {
 
       <h3>The chosen one</h3>
       <TheChosenOne person={chosen} />
-      <Button
+      <ShowChosenOne
+        variant="contained"
         onSubmit={handleAssignRandomMember}
         onClick={handleAssignRandomMember}
       >
-        Tell me the chosen one...
-      </Button>
+        Show me the chosen one...
+      </ShowChosenOne>
 
-      <ShowHistory onClick={handleShowHideHistory}>
+      <ShowHistory variant="outlined" onClick={handleShowHideHistory}>
         (click to {showHistory ? "hide" : "show"} history)
       </ShowHistory>
       {showHistory ? <History history={history} /> : null}

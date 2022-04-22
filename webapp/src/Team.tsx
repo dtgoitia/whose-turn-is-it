@@ -9,7 +9,7 @@ const Count = styled.div`
 
 const Names = styled.div`
   font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
 `;
 
 interface Props {
@@ -20,14 +20,21 @@ export default function Team({ team, add }: Props) {
   const count = [...team].length;
   const names = [...team].sort().join(", ");
 
-  const [name, setName] = useState<string>("");
+  const [name, setName] = useState<string | null>(null);
   function handleNameChange(event: any) {
     setName(event.target.value);
   }
   function handleSubmit(event: any) {
     event.preventDefault(); // Do not refresh page
+    if (!name) return;
+
     add(name);
+    setName("");
   }
+
+  // const value = name === "" ? undefined : name;
+  const value = name;
+  console.dir(value);
 
   return (
     <Box component="form" noValidate onSubmit={handleSubmit}>
@@ -37,8 +44,7 @@ export default function Team({ team, add }: Props) {
       <div>
         <TextField
           label="Add a new member"
-          value={name ? name : undefined}
-          placeholder="name"
+          value={value}
           onChange={handleNameChange}
         />
       </div>
