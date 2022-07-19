@@ -48,14 +48,14 @@ export function getCountPerPerson(history: Person[]): PersonCount[] {
   return result;
 }
 
-export function getRandomMember(team: Set<Person>): Person {
+function getRandomMember(team: Set<Person>): Person {
   const memberList = [...team];
   const maxInt = memberList.length;
   const randomInt = Math.floor(Math.random() * maxInt);
   return memberList[randomInt];
 }
 
-export function getMemberWhoWasLessChosen(
+function getMemberWhoWasLessChosen(
   team: Set<Person>,
   history: Person[]
 ): Person {
@@ -77,4 +77,32 @@ export function getMemberWhoWasLessChosen(
   const leastChosenPeople = personPerCount[smallestCount];
 
   return getRandomMember(leastChosenPeople);
+}
+
+export function addMemberToHistory(
+  history: Person[],
+  member: Person
+): Person[] {
+  return [...history, member];
+}
+
+export function undoLastChoice(history: Person[]): Person[] {
+  return history.slice(0, -1);
+}
+
+export function assign(
+  team: Set<Person>,
+  history: Person[]
+): [Person, Person[]] {
+  const chosenOne = getMemberWhoWasLessChosen(team, history);
+  const updatedHistory = addMemberToHistory(history, chosenOne);
+  return [chosenOne, updatedHistory];
+}
+
+export function retryAssignment(
+  team: Set<Person>,
+  history: Person[]
+): [Person, Person[]] {
+  const previousHistory = undoLastChoice(history);
+  return assign(team, previousHistory);
 }

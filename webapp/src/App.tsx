@@ -6,7 +6,9 @@ import {
   getPeopleFromStorage,
   getHistoryFromStorage,
   Person,
-  getMemberWhoWasLessChosen,
+  undoLastChoice,
+  retryAssignment,
+  assign,
 } from "./domain";
 import storage from "./localStorage";
 import styled from "@emotion/styled";
@@ -25,12 +27,16 @@ const Page = styled.div`
   max-width: 800px;
 `;
 
-const ShowChosenOne = styled(Button)`
+const StyledButton = styled(Button)`
   margin: 2rem 0;
 `;
-const ShowHistory = styled(Button)`
+const SecondaryButton = styled(StyledButton)`
   font-size: 0.8rem;
-  margin: 2rem 0;
+`;
+
+const Buttons = styled.div`
+  display: flex;
+  column-gap: 1rem;
 `;
 
 function App() {
@@ -49,13 +55,24 @@ function App() {
   };
 
   function handleAssignRandomMember(): void {
-    const theChosenOne = getMemberWhoWasLessChosen(team, history);
+    const [theChosenOne, updatedHistory] = assign(team, history);
     setChosenMember(theChosenOne);
-    setHistory([...history, theChosenOne]);
+    setHistory(updatedHistory);
   }
 
   function handleShowHideHistory(): void {
     setShowHistory(!showHistory);
+  }
+
+  function handleUndoLastChoice(): void {
+    const updatedHistory = undoLastChoice(history);
+    setHistory(updatedHistory);
+  }
+
+  function handleRetryAssignment(): void {
+    const [theChosenOne, updatedHistory] = retryAssignment(team, history);
+    setChosenMember(theChosenOne);
+    setHistory(updatedHistory);
   }
 
   return (
@@ -64,17 +81,25 @@ function App() {
 
       <h3>The chosen one</h3>
       <TheChosenOne person={chosen} />
-      <ShowChosenOne
+      <StyledButton
         variant="contained"
         onSubmit={handleAssignRandomMember}
         onClick={handleAssignRandomMember}
       >
         Show me the chosen one...
-      </ShowChosenOne>
+      </StyledButton>
 
-      <ShowHistory variant="outlined" onClick={handleShowHideHistory}>
-        (click to {showHistory ? "hide" : "show"} history)
-      </ShowHistory>
+      <Buttons>
+        <SecondaryButton variant="outlined" onClick={handleShowHideHistory}>
+          {showHistory ? "hide" : "show"} history
+        </SecondaryButton>
+        <SecondaryButton variant="outlined" onClick={handleRetryAssignment}>
+          retry assignment
+        </SecondaryButton>
+        <SecondaryButton variant="outlined" onClick={handleUndoLastChoice}>
+          undo last choice
+        </SecondaryButton>
+      </Buttons>
       {showHistory ? <History history={history} /> : null}
     </Page>
   );
