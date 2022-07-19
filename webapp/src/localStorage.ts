@@ -1,3 +1,5 @@
+import { STORAGE_PREFIX } from "./config";
+
 enum ValueType {
   string = "string",
   number = "number",
@@ -75,8 +77,9 @@ class Storage {
   history: StoredItem<string | undefined>;
 
   constructor() {
-    this.people = new StoredItem("people", ValueType.string);
-    this.history = new StoredItem("history", ValueType.string);
+    const prefix = STORAGE_PREFIX;
+    this.people = new StoredItem(`${prefix}__people`, ValueType.string);
+    this.history = new StoredItem(`${prefix}__history`, ValueType.string);
   }
 }
 
