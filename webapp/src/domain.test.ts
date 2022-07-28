@@ -1,0 +1,85 @@
+import { assign, Person } from "./domain";
+
+describe("debug", () => {
+  const team = new Set<Person>([
+    "David",
+    "Andras",
+    "Andy",
+    "James",
+    "John",
+    "Zeth",
+  ]);
+
+  const history: Person[] = [
+    "James",
+    "John",
+    "Zeth",
+    "Steve",
+    "David",
+    "Andy",
+    "Andras",
+    "Andras",
+    "John",
+    "Steve",
+    "James",
+    "Zeth",
+    "Andy",
+    "David",
+    "Zeth",
+    "Andy",
+    "John",
+    "David",
+    "Andras",
+    "Steve",
+    "James",
+    "John",
+    "Andy",
+    "Steve",
+    "Andras",
+    "David",
+    "James",
+    "John",
+    "Zeth",
+    "Andy",
+    "Andras",
+    "David",
+    "James",
+    "Zeth",
+    "Steve",
+    "James",
+    "Andy",
+    "David",
+    "John",
+    "Andras",
+    "Steve",
+    "Zeth",
+    "Steve",
+    "Andras",
+    "David",
+    "Zeth",
+    "John",
+    "John",
+    "Steve",
+    "James",
+    "Andy",
+    "Zeth",
+    "David",
+    "Andras",
+    "Andy",
+    "James",
+    "David",
+    "Zeth",
+    "John",
+    "Andy",
+    "Andras",
+    "James",
+    "Andras",
+  ];
+
+  test("foo", () => {
+    const lastChosenOne = history[history.length - 1];
+    const [theChosenOne] = assign(team, history);
+
+    expect(theChosenOne).not.toEqual(lastChosenOne);
+  });
+});

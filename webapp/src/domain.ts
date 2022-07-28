@@ -70,9 +70,8 @@ function getMemberWhoWasLessChosen(
     personPerCount[count].add(person);
   }
 
-  const smallestCount = Object.keys(personPerCount)
-    .map((key) => parseInt(key))
-    .sort()[0];
+  const counts = Object.keys(personPerCount).map((key) => parseInt(key));
+  const smallestCount = Math.min(...counts);
 
   const leastChosenPeople = personPerCount[smallestCount];
 
